@@ -166,8 +166,9 @@ github.com/aws/smithy-go v1.8.0/go.mod h1:SObp3lf9smib00L/v3U2eAKG8FyQ7iLrJnQiAm
 github.com/benbjohnson/clock v1.1.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
 github.com/bep/clock v0.3.0 h1:vfOA6+wVb6pPQEiXow9f/too92vNTLe9MuwO13PfI0M=
 github.com/bep/clock v0.3.0/go.mod h1:6Gz2lapnJ9vxpvPxQ2u6FcXFRoj4kkiqQ6pm0ERZlwk=
-github.com/bep/debounce v1.2.0 h1:wXds8Kq8qRfwAOpAxHrJDbCXgC5aHSzgQb/0gKsHQqo=
 github.com/bep/debounce v1.2.0/go.mod h1:H8yggRPQKLUhUoqrJC1bO2xNya7vanpDl7xR3ISbCJ0=
+github.com/bep/debounce v1.2.1 h1:v67fRdBA9UQu2NhLFXrSg0Brw7CexQekrBwDMM8bzeY=
+github.com/bep/debounce v1.2.1/go.mod h1:H8yggRPQKLUhUoqrJC1bO2xNya7vanpDl7xR3ISbCJ0=
 github.com/bep/gitmap v1.1.2 h1:zk04w1qc1COTZPPYWDQHvns3y1afOsdRfraFQ3qI840=
 github.com/bep/gitmap v1.1.2/go.mod h1:g9VRETxFUXNWzMiuxOwcudo6DfZkW9jOsOW0Ft4kYaY=
 github.com/bep/goat v0.5.0 h1:S8jLXHCVy/EHIoCY+btKkmcxcXFd34a0Q63/0D4TKeA=
