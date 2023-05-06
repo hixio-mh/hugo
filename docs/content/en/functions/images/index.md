@@ -15,8 +15,6 @@ See [images.Filter](#filter) for how to apply these filters to an image.
 
 ## Overlay
 
-{{< new-in "0.80.0" >}}
-
 {{% funcsig %}}
 images.Overlay SRC X Y
 {{% /funcsig %}}
@@ -38,8 +36,6 @@ A shorter version of the above, if you only need to apply the filter once:
 The above will overlay `$logo` in the upper left corner of `$img` (at position `x=50, y=50`).
 
 ## Text
-
-{{< new-in "0.90.0" >}}
 
 Using the `Text` filter, you can add text to an image.
 
@@ -64,7 +60,7 @@ You can load a custom font if needed. Load the font as a Hugo `Resource` and set
 
 ```go-html-template
 
-{{ $font := resources.Get "https://github.com/google/fonts/raw/main/apache/roboto/static/Roboto-Black.ttf" }}
+{{ $font := resources.GetRemote "https://github.com/google/fonts/raw/main/apache/roboto/static/Roboto-Black.ttf" }}
 {{ $img := resources.Get "/images/background.png"}}
 {{ $img = $img.Filter (images.Text "Hugo rocks!" (dict
     "font" $font

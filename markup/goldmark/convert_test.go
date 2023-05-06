@@ -34,7 +34,7 @@ import (
 	qt "github.com/frankban/quicktest"
 )
 
-func convert(c *qt.C, mconf markup_config.Config, content string) converter.Result {
+func convert(c *qt.C, mconf markup_config.Config, content string) converter.ResultRender {
 	p, err := Provider.New(
 		converter.ProviderConfig{
 			MarkupConfig: mconf,
@@ -286,7 +286,7 @@ func TestConvertAttributes(t *testing.T) {
 				conf.Highlight.NoClasses = false
 			},
 			"```bash {linenos=table, anchorlinenos=true, lineanchors=org-coderef--xyz}\necho 'foo';\n```",
-			"<div class=\"highlight\"><div class=\"chroma\">\n<table class=\"lntable\"><tr><td class=\"lntd\">\n<pre tabindex=\"0\" class=\"chroma\"><code><span class=\"lnt\" id=\"org-coderef--xyz-1\"><a style=\"outline: none; text-decoration:none; color:inherit\" href=\"#org-coderef--xyz-1\">1</a>\n</span></code></pre></td>\n<td class=\"lntd\">\n<pre tabindex=\"0\" class=\"chroma\"><code class=\"language-bash\" data-lang=\"bash\"><span class=\"line\"><span class=\"cl\"><span class=\"nb\">echo</span> <span class=\"s1\">&#39;foo&#39;</span><span class=\"p\">;</span>\n</span></span></code></pre></td></tr></table>\n</div>\n</div>",
+			"<div class=\"highlight\"><div class=\"chroma\">\n<table class=\"lntable\"><tr><td class=\"lntd\">\n<pre tabindex=\"0\" class=\"chroma\"><code><span class=\"lnt\" id=\"org-coderef--xyz-1\"><a href=\"#org-coderef--xyz-1\">1</a>\n</span></code></pre></td>\n<td class=\"lntd\">\n<pre tabindex=\"0\" class=\"chroma\"><code class=\"language-bash\" data-lang=\"bash\"><span class=\"line\"><span class=\"cl\"><span class=\"nb\">echo</span> <span class=\"s1\">&#39;foo&#39;</span><span class=\"p\">;</span>\n</span></span></code></pre></td></tr></table>\n</div>\n</div>",
 		},
 		{
 			"Code block, CodeFences=true,lineanchors, default ordinal",
@@ -297,9 +297,9 @@ func TestConvertAttributes(t *testing.T) {
 			},
 			"```bash {linenos=inline, anchorlinenos=true}\necho 'foo';\nnecho 'bar';\n```\n\n```bash {linenos=inline, anchorlinenos=true}\necho 'baz';\nnecho 'qux';\n```",
 			[]string{
-				"<span class=\"ln\" id=\"hl-0-1\"><a style=\"outline: none; text-decoration:none; color:inherit\" href=\"#hl-0-1\">1</a></span><span class=\"cl\"><span class=\"nb\">echo</span> <span class=\"s1\">&#39;foo&#39;</span>",
-				"<span class=\"ln\" id=\"hl-0-2\"><a style=\"outline: none; text-decoration:none; color:inherit\" href=\"#hl-0-2\">2</a></span><span class=\"cl\">necho <span class=\"s1\">&#39;bar&#39;</span>",
-				"<span class=\"ln\" id=\"hl-1-2\"><a style=\"outline: none; text-decoration:none; color:inherit\" href=\"#hl-1-2\">2</a></span><span class=\"cl\">necho <span class=\"s1\">&#39;qux&#39;</span>",
+				"<span class=\"ln\" id=\"hl-0-1\"><a class=\"lnlinks\" href=\"#hl-0-1\">1</a></span><span class=\"cl\"><span class=\"nb\">echo</span> <span class=\"s1\">&#39;foo&#39;</span>",
+				"<span class=\"ln\" id=\"hl-0-2\"><a class=\"lnlinks\" href=\"#hl-0-2\">2</a></span><span class=\"cl\">necho <span class=\"s1\">&#39;bar&#39;</span>",
+				"<span class=\"ln\" id=\"hl-1-2\"><a class=\"lnlinks\" href=\"#hl-1-2\">2</a></span><span class=\"cl\">necho <span class=\"s1\">&#39;qux&#39;</span>",
 			},
 		},
 		{
@@ -498,4 +498,19 @@ LINE5
 		result := convertForConfig(c, cfg, lines, "")
 		c.Assert(result, qt.Contains, "<span class=\"ln\">2</span><span class=\"cl\">LINE2\n</span></span>")
 	})
+}
+
+func TestTypographerConfig(t *testing.T) {
+	c := qt.New(t)
+
+	content := `
+A "quote" and 'another quote' and a "quote with a 'nested' quote" and a 'quote with a "nested" quote' and an ellipsis...
+`
+	mconf := markup_config.Default
+	mconf.Goldmark.Extensions.Typographer.LeftDoubleQuote = "&laquo;"
+	mconf.Goldmark.Extensions.Typographer.RightDoubleQuote = "&raquo;"
+	b := convert(c, mconf, content)
+	got := string(b.Bytes())
+
+	c.Assert(got, qt.Contains, "<p>A &laquo;quote&raquo; and &lsquo;another quote&rsquo; and a &laquo;quote with a &rsquo;nested&rsquo; quote&raquo; and a &lsquo;quote with a &laquo;nested&raquo; quote&rsquo; and an ellipsis&hellip;</p>\n")
 }

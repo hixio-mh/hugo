@@ -17,6 +17,7 @@ package internal
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"go/doc"
@@ -49,7 +50,7 @@ type TemplateFuncsNamespace struct {
 	Name string
 
 	// This is the method receiver.
-	Context func(v ...any) (any, error)
+	Context func(ctx context.Context, v ...any) (any, error)
 
 	// Additional info, aliases and examples, per method name.
 	MethodMappings map[string]TemplateFuncMethodMapping
@@ -65,6 +66,11 @@ func (t *TemplateFuncsNamespace) AddMethodMapping(m any, aliases []string, examp
 	}
 
 	name := methodToName(m)
+
+	// Rewrite §§ to ` in example commands.
+	for i, e := range examples {
+		examples[i][0] = strings.ReplaceAll(e[0], "§§", "`")
+	}
 
 	// sanity check
 	for _, e := range examples {
@@ -141,6 +147,22 @@ func (t goDocFunc) toJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// ToMap returns a limited map representation of the namespaces.
+func (namespaces TemplateFuncsNamespaces) ToMap() map[string]any {
+	m := make(map[string]any)
+	for _, ns := range namespaces {
+		mm := make(map[string]any)
+		for name, mapping := range ns.MethodMappings {
+			mm[name] = map[string]any{
+				"Examples": mapping.Examples,
+				"Aliases":  mapping.Aliases,
+			}
+		}
+		m[ns.Name] = mm
+	}
+	return m
+}
+
 // MarshalJSON returns the JSON encoding of namespaces.
 func (namespaces TemplateFuncsNamespaces) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
@@ -151,7 +173,7 @@ func (namespaces TemplateFuncsNamespaces) MarshalJSON() ([]byte, error) {
 		if i != 0 {
 			buf.WriteString(",")
 		}
-		b, err := ns.toJSON()
+		b, err := ns.toJSON(context.TODO())
 		if err != nil {
 			return nil, err
 		}
@@ -167,7 +189,7 @@ var ignoreFuncs = map[string]bool{
 	"Reset": true,
 }
 
-func (t *TemplateFuncsNamespace) toJSON() ([]byte, error) {
+func (t *TemplateFuncsNamespace) toJSON(ctx context.Context) ([]byte, error) {
 	var buf bytes.Buffer
 
 	godoc := getGetTplPackagesGoDoc()[t.Name]
@@ -176,11 +198,11 @@ func (t *TemplateFuncsNamespace) toJSON() ([]byte, error) {
 
 	buf.WriteString(fmt.Sprintf(`%q: {`, t.Name))
 
-	ctx, err := t.Context()
+	tctx, err := t.Context(ctx)
 	if err != nil {
 		return nil, err
 	}
-	ctxType := reflect.TypeOf(ctx)
+	ctxType := reflect.TypeOf(tctx)
 	for i := 0; i < ctxType.NumMethod(); i++ {
 		method := ctxType.Method(i)
 		if ignoreFuncs[method.Name] {
