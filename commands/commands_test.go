@@ -15,7 +15,6 @@ package commands
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -117,11 +116,13 @@ func TestExecute(t *testing.T) {
 
 func checkNewSiteInited(c *qt.C, basepath string) {
 	paths := []string{
-		filepath.Join(basepath, "layouts"),
-		filepath.Join(basepath, "content"),
 		filepath.Join(basepath, "archetypes"),
-		filepath.Join(basepath, "static"),
+		filepath.Join(basepath, "assets"),
+		filepath.Join(basepath, "content"),
 		filepath.Join(basepath, "data"),
+		filepath.Join(basepath, "layouts"),
+		filepath.Join(basepath, "static"),
+		filepath.Join(basepath, "themes"),
 		filepath.Join(basepath, "config.toml"),
 	}
 
@@ -228,7 +229,7 @@ func TestFlags(t *testing.T) {
 				if cmd.getCommand() == nil {
 					continue
 				}
-				// We are only intereseted in the flag handling here.
+				// We are only interested in the flag handling here.
 				cmd.getCommand().RunE = noOpRunE
 			}
 			rootCmd := root.getCommand()
@@ -400,7 +401,7 @@ PostProcess: {{ $foo.RelPermalink }}
 
 func writeFile(t testing.TB, filename, content string) {
 	must(t, os.MkdirAll(filepath.Dir(filename), os.FileMode(0755)))
-	must(t, ioutil.WriteFile(filename, []byte(content), os.FileMode(0755)))
+	must(t, os.WriteFile(filename, []byte(content), os.FileMode(0755)))
 }
 
 func must(t testing.TB, err error) {
