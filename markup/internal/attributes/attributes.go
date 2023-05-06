@@ -126,6 +126,9 @@ func (a Attribute) ValueString() string {
 	return cast.ToString(a.Value)
 }
 
+// Empty holds no attributes.
+var Empty = &AttributesHolder{}
+
 type AttributesHolder struct {
 	// What we get from Goldmark.
 	attributes []Attribute
@@ -197,8 +200,8 @@ func RenderASTAttributes(w hugio.FlexiWriter, attributes ...ast.Attribute) {
 }
 
 // Render writes the attributes to the given as attributes to an HTML element.
-// This is used for the default codeblock renderering.
-// This performs HTML esacaping of string attributes.
+// This is used for the default codeblock rendering.
+// This performs HTML escaping of string attributes.
 func RenderAttributes(w hugio.FlexiWriter, skipClass bool, attributes ...Attribute) {
 	for _, attr := range attributes {
 		a := strings.ToLower(string(attr.Name))

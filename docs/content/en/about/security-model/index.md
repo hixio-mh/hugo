@@ -10,7 +10,6 @@ menu:
     weight: 4
 weight: 5
 sections_weight: 5
-draft: false
 aliases: [/security/]
 toc: true
 ---
@@ -28,10 +27,7 @@ But when developing and building your site, the runtime is the `hugo` executable
 * User-defined components have read-only access to the filesystem.
 * We shell out to some external binaries to support [Asciidoctor](/content-management/formats/#list-of-content-formats) and similar, but those binaries and their flags are predefined and disabled by default (see [Security Policy](#security-policy)). General functions to run arbitrary external OS commands have been [discussed](https://github.com/gohugoio/hugo/issues/796), but not implemented because of security concerns.
 
-
 ## Security Policy
-
-{{< new-in "0.91.0" >}}
 
 Hugo has a built-in security policy that restricts access to [os/exec](https://pkg.go.dev/os/exec), remote communication and similar.
 
@@ -41,7 +37,7 @@ The default configuration is listed below. Any build using features not in the a
 
 Note that these and other config settings in Hugo can be overridden by the OS environment. If you want to block all remote HTTP fetching of data:
 
-```
+```txt
 HUGO_SECURITY_HTTP_URLS=none hugo
 ```
 
@@ -57,11 +53,11 @@ These are the security threats as defined by [OWASP](https://en.wikipedia.org/wi
 
 For HTML output, this is the core security model:
 
-https://golang.org/pkg/html/template/#hdr-Security_Model
+<https://pkg.go.dev/html/template#hdr-Security_Model>
 
 In short:
 
-Templates authors (you) are trusted, but the data you send in is not.
+Template and configuration authors (you) are trusted, but the data you send in is not.
 This is why you sometimes need to use the _safe_ functions, such as `safeHTML`, to avoid escaping of data you know is safe.
 There is one exception to the above, as noted in the documentation: If you enable inline shortcodes, you also say that the shortcodes and data handling in content files are trusted, as those macros are treated as pure text.
 It may be worth adding that Hugo is a static site generator with no concept of dynamic user input.
