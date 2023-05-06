@@ -30,7 +30,11 @@ dependabot/go_modules/github.com/spf13/fsync-0.10.0
 	github.com/cli/safeexec v1.0.0
 	github.com/disintegration/gift v1.2.1
 	github.com/dustin/go-humanize v1.0.0
+dependabot/go_modules/github.com/evanw/esbuild-0.17.10
+	github.com/evanw/esbuild v0.17.10
+
 	github.com/evanw/esbuild v0.17.0
+ master
 	github.com/fortytw2/leaktest v1.3.0
 	github.com/frankban/quicktest v1.14.4
 	github.com/fsnotify/fsnotify v1.6.0
