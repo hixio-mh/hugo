@@ -60,7 +60,11 @@ dependabot/go_modules/github.com/evanw/esbuild-0.17.10
 	github.com/muesli/smartcrop v0.3.0
 	github.com/niklasfasching/go-org v1.6.6
 	github.com/olekukonko/tablewriter v0.0.5
+ dependabot/go_modules/github.com/pelletier/go-toml/v2-2.0.7
+	github.com/pelletier/go-toml/v2 v2.0.7
+
 	github.com/pelletier/go-toml/v2 v2.0.6
+ master
 	github.com/rogpeppe/go-internal v1.9.0
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd
 	github.com/sanity-io/litter v1.5.5
