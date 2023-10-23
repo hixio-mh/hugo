@@ -2,7 +2,7 @@ module github.com/gohugoio/hugo
 
 require (
 	github.com/BurntSushi/locker v0.0.0-20171006230638-a6e239ea1c69
-	github.com/PuerkitoBio/purell v1.1.1
+	github.com/PuerkitoBio/purell v1.2.1
 	github.com/alecthomas/chroma/v2 v2.9.1
 	github.com/armon/go-radix v1.0.0
 	github.com/aws/aws-sdk-go v1.45.14
@@ -69,7 +69,7 @@ require (
 	gocloud.dev v0.34.0
 	golang.org/x/exp v0.0.0-20221031165847-c99f073a8326
 	golang.org/x/image v0.12.0
-	golang.org/x/net v0.15.0
+	golang.org/x/net v0.17.0
 	golang.org/x/sync v0.3.0
 	golang.org/x/text v0.13.0
 	golang.org/x/tools v0.13.0
@@ -90,7 +90,6 @@ require (
 	github.com/Azure/go-autorest v14.2.0+incompatible // indirect
 	github.com/Azure/go-autorest/autorest/to v0.4.0 // indirect
 	github.com/AzureAD/microsoft-authentication-library-for-go v1.0.0 // indirect
-	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.20.0 // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.4.11 // indirect
 	github.com/aws/aws-sdk-go-v2/config v1.18.32 // indirect
@@ -139,10 +138,10 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	go.opencensus.io v0.24.0 // indirect
-	golang.org/x/crypto v0.13.0 // indirect
+	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/oauth2 v0.11.0 // indirect
-	golang.org/x/sys v0.12.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20230803162519-f966b187b2e5 // indirect
